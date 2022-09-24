@@ -12,8 +12,15 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Templateフォルダへの絶対パスを定義
+TEMPLATE_DIR = BASE_DIR / "Template"
+
+# staticフォルダへの絶対パスを定義
+STATIC_DIR = BASE_DIR / "static"
 
 
 # Quick-start development settings - unsuitable for production
@@ -57,7 +64,9 @@ ROOT_URLCONF = "mysite.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [
+            TEMPLATE_DIR,
+        ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -106,9 +115,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "ja"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Asia/Tokyo"
 
 USE_I18N = True
 
@@ -119,8 +128,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = "static/"
+STATICFILES_DIRS = [
+    STATIC_DIR,
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+LOGIN_REDIRECT_URL = "/accounts/user/"
+
+AUTH_USER_MODEL = "accounts.CustumUser"

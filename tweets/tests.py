@@ -1,9 +1,19 @@
+from urllib import response
 from django.test import TestCase
+from django.urls import reverse
+
+from accounts.models import CustumUser
 
 
 class TestHomeView(TestCase):
     def test_success_get(self):
-        pass
+        user = CustumUser.objects.create_user(
+            username="testuser", email="test@example.com", password="Hp9My5mi"
+        )
+        self.client.force_login(user)
+        response = self.client.get(reverse("tweets:home"))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "tweets/home.html")
 
 
 class TestTweetCreateView(TestCase):
