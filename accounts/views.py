@@ -1,8 +1,8 @@
+from django.contrib.auth import login
+from django.views.generic import CreateView
+
 from .forms import SignupForm
 from .models import CustomUser
-from django.contrib.auth import login
-
-from django.views.generic import CreateView
 
 
 class WelcomeView(CreateView):
