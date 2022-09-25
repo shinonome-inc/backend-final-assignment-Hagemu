@@ -1,11 +1,7 @@
-from django.shortcuts import render
-
 from django.views.generic import TemplateView, CreateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from accounts.models import CustumUser
-
-# Create your views here.
+from accounts.models import CustomUser
 
 
 class HomeView(LoginRequiredMixin, TemplateView):

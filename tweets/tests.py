@@ -2,12 +2,12 @@ from urllib import response
 from django.test import TestCase
 from django.urls import reverse
 
-from accounts.models import CustumUser
+from accounts.models import CustomUser
 
 
 class TestHomeView(TestCase):
     def test_success_get(self):
-        user = CustumUser.objects.create_user(
+        user = CustomUser.objects.create_user(
             username="testuser", email="test@example.com", password="Hp9My5mi"
         )
         self.client.force_login(user)
