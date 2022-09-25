@@ -1,7 +1,5 @@
-from django.views.generic import TemplateView, CreateView
+from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-
-from accounts.models import CustomUser
 
 
 class HomeView(LoginRequiredMixin, TemplateView):
