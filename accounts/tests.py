@@ -6,8 +6,11 @@ from .models import CustomUser
 
 
 class TestSignUpView(TestCase):
+    def setUp(self):
+        self.url = reverse("accounts:signup")
+
     def test_success_get(self):
-        response = self.client.get(reverse("accounts:signup"))
+        response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "accounts/signup.html")
 
@@ -18,7 +21,7 @@ class TestSignUpView(TestCase):
             "password1": "Hp9My5mi",
             "password2": "Hp9My5mi",
         }
-        response = self.client.post(reverse("accounts:signup"), data=data)
+        response = self.client.post(self.url, data=data)
         self.assertRedirects(
             response,
             reverse("tweets:home"),
@@ -41,7 +44,7 @@ class TestSignUpView(TestCase):
             "password1": "",
             "password2": "",
         }
-        response = self.client.post(reverse("accounts:signup"), data=data)
+        response = self.client.post(self.url, data=data)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(CustomUser.objects.count(), 0)
         self.assertFormError(response, "form", "username", "このフィールドは必須です。")
@@ -56,7 +59,7 @@ class TestSignUpView(TestCase):
             "password1": "Hp9My5mi",
             "password2": "Hp9My5mi",
         }
-        response = self.client.post(reverse("accounts:signup"), data=data)
+        response = self.client.post(self.url, data=data)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(CustomUser.objects.count(), 0)
         self.assertFormError(response, "form", "username", "このフィールドは必須です。")
@@ -68,7 +71,7 @@ class TestSignUpView(TestCase):
             "password1": "Hp9My5mi",
             "password2": "Hp9My5mi",
         }
-        response = self.client.post(reverse("accounts:signup"), data=data)
+        response = self.client.post(self.url, data=data)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(CustomUser.objects.count(), 0)
         self.assertFormError(response, "form", "email", "このフィールドは必須です。")
@@ -80,7 +83,7 @@ class TestSignUpView(TestCase):
             "password1": "",
             "password2": "",
         }
-        response = self.client.post(reverse("accounts:signup"), data=data)
+        response = self.client.post(self.url, data=data)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(CustomUser.objects.count(), 0)
         self.assertFormError(response, "form", "password1", "このフィールドは必須です。")
@@ -96,7 +99,7 @@ class TestSignUpView(TestCase):
             "password1": "Hp9My5mi",
             "password2": "Hp9My5mi",
         }
-        response = self.client.post(reverse("accounts:signup"), data=data)
+        response = self.client.post(self.url, data=data)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(CustomUser.objects.count(), 1)
         self.assertFormError(response, "form", "username", "同じユーザー名が既に登録済みです。")
@@ -108,7 +111,7 @@ class TestSignUpView(TestCase):
             "password1": "Hp9My5mi",
             "password2": "Hp9My5mi",
         }
-        response = self.client.post(reverse("accounts:signup"), data=data)
+        response = self.client.post(self.url, data=data)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(CustomUser.objects.count(), 0)
         self.assertFormError(response, "form", "email", "有効なメールアドレスを入力してください。")
@@ -120,7 +123,7 @@ class TestSignUpView(TestCase):
             "password1": "Hp9",
             "password2": "Hp9",
         }
-        response = self.client.post(reverse("accounts:signup"), data=data)
+        response = self.client.post(self.url, data=data)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(CustomUser.objects.count(), 0)
         self.assertFormError(
@@ -134,7 +137,7 @@ class TestSignUpView(TestCase):
             "password1": "testuser1",
             "password2": "testuser1",
         }
-        response = self.client.post(reverse("accounts:signup"), data=data)
+        response = self.client.post(self.url, data=data)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(CustomUser.objects.count(), 0)
         self.assertFormError(response, "form", "password2", "このパスワードは ユーザー名 と似すぎています。")
@@ -146,7 +149,7 @@ class TestSignUpView(TestCase):
             "password1": "8131123134",
             "password2": "8131123134",
         }
-        response = self.client.post(reverse("accounts:signup"), data=data)
+        response = self.client.post(self.url, data=data)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(CustomUser.objects.count(), 0)
         self.assertFormError(response, "form", "password2", "このパスワードは数字しか使われていません。")
@@ -158,7 +161,7 @@ class TestSignUpView(TestCase):
             "password1": "Hp9My5mi",
             "password2": "Hp9My5mm",
         }
-        response = self.client.post(reverse("accounts:signup"), data=data)
+        response = self.client.post(self.url, data=data)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(CustomUser.objects.count(), 0)
         self.assertFormError(response, "form", "password2", "確認用パスワードが一致しません。")

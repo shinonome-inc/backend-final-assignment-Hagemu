@@ -1,4 +1,4 @@
-from django.contrib.auth import login
+from django.contrib.auth import authenticate, login
 from django.views.generic import CreateView
 
 from .forms import SignupForm
@@ -16,10 +16,12 @@ class SignUpView(CreateView):
     success_url = "/tweets/home/"
 
     def form_valid(self, form):
-        result = super().form_valid(form)
-        user = self.object
+        response = super().form_valid(form)
+        username = form.cleaned_data.get("username")
+        password = form.cleaned_data.get("password1")
+        user = authenticate(username=username, password=password)
         login(self.request, user)
-        return result
+        return response
 
     # class LoginView(LoginView):
     pass

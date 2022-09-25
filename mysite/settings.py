@@ -15,11 +15,8 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Templateフォルダへの絶対パスを定義
-TEMPLATE_DIR = BASE_DIR / "Template"
-
-# staticフォルダへの絶対パスを定義
-STATIC_DIR = BASE_DIR / "static"
+# templatesフォルダへの絶対パスを定義
+# TEMPLATE_DIR = BASE_DIR / "templates"
 
 
 # Quick-start development settings - unsuitable for production
@@ -63,9 +60,7 @@ ROOT_URLCONF = "mysite.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [
-            TEMPLATE_DIR,
-        ],
+        "DIRS": [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -127,9 +122,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = "static/"
-STATICFILES_DIRS = [
-    STATIC_DIR,
-]
+STATICFILES_DIRS = []
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
