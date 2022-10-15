@@ -4,5 +4,7 @@
 
 <body>
     <h1>Home</h1>
+    <p><a href="{% url 'accounts:logout' %}">ログアウト</a></p>
+    <h2>ユーザー名：{{user.username}}</h2>
 </body>
 {% endblock %}

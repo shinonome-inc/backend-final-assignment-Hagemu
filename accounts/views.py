@@ -1,7 +1,9 @@
 from django.contrib.auth import authenticate, login
-from django.views.generic import CreateView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import LoginView, LogoutView
+from django.views.generic import CreateView, DetailView
 
-from .forms import SignupForm
+from .forms import LoginForm, SignupForm
 from .models import CustomUser
 
 
@@ -23,14 +25,21 @@ class SignUpView(CreateView):
         login(self.request, user)
         return response
 
-    # class LoginView(LoginView):
+
+class LoginView(LoginView):
+    template_name = "accounts/login.html"
+    form_class = LoginForm
+
+
+class LogoutView(LogoutView):
     pass
 
-    # class LogoutView(LogoutView):
-    pass
 
-    # class UserProfileView(LoginRequiredMixin, TemplateView):
-    pass
+class UserProfileView(LoginRequiredMixin, DetailView):
+    model = CustomUser
+    template_name = "accounts/profile.html"
+    slug_field = "username"
+    slug_url_kwarg = "username"
 
     # class TweetCreateView(request):
     pass
