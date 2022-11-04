@@ -1,12 +1,10 @@
 {% extends 'base.html' %}
-{% block title %}Home{% endblock %}
+{% block title %}tweet_create{% endblock %}
 {% block content %}
 
 <body>
-    <h1>Home</h1>
+    <h1>ツイート作成</h1>
     <p><a href="{% url 'accounts:logout' %}">ログアウト</a></p>
     <h2>ユーザー名：{{user.username}}</h2>
-
-    <p><a href="{% url 'tweets:create' %}">ツイートする！</a></p>
 </body>
 {% endblock %}
