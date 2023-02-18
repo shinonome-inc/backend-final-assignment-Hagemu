@@ -22,9 +22,7 @@ class TestHomeView(TestCase):
 
         tweets = response.context["tweet_list"]
         self.assertEqual(tweets.count(), Tweet.objects.all().count())
-        self.assertEqual(
-            tweets.first().created_date, Tweet.objects.first().created_date
-        )
+        self.assertEqual(tweets.first().created_at, Tweet.objects.first().created_at)
 
 
 class TestTweetCreateView(TestCase):

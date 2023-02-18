@@ -43,13 +43,8 @@ class UserProfileView(LoginRequiredMixin, ListView):
     model = Tweet
     queryset = Tweet.objects.select_related("user")
 
-    def get_queryset(self):
-        return Tweet.objects.filter(user__username=self.kwargs["username"])
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        user = get_object_or_404(CustomUser, username=self.kwargs["username"])
-        context["username"] = user.username
         context["tweets_list"] = Tweet.objects.select_related("user").filter(
             user__username=self.kwargs["username"]
         )

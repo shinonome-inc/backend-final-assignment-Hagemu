@@ -11,14 +11,13 @@
     {% for i in tweet_list %}
     <div>
         <a href="{% url 'accounts:profile' i.user.username %}">{{i.user.username}}</a>
-        <p>{{i.created_date}}</p>
+        <p>{{i.created_at}}</p>
         <p>{{i.content}}
             <a><a href="{% url 'tweets:detail' i.pk %}">詳細</a>
         </p>
     </div>
     {% endfor %}
     </div>
-    <p><a href="{% url 'accounts:logout' %}">ログアウト</a></p>
 
 
 

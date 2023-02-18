@@ -8,13 +8,29 @@
 </head>
 
 <body>
+    <b>MENU</b>
+    {% if request.user.is_authenticated %}
     <div id="sidebar">
-        {% block sidebar %}
         <ul>
             <li><a href="/tweets/home/">Home</a></li>
         </ul>
-        {% endblock %}
+        <ul>
+            <li><a href="/accounts/profile/">Profile</a></li>
+        </ul>
+        <ul>
+            <li><a href="/accounts/logout/">Logout</a></li>
+        </ul>
     </div>
+    {% else %}
+    <div id="sidebar">
+        <ul>
+            <li><a href="/accounts/signup/">Signup</a></li>
+        </ul>
+        <ul>
+            <li><a href="/accounts/login/">Login</a></li>
+        </ul>
+    </div>
+    {% endif %}
 
     <div id="content">
         {% block content %}{% endblock %}

@@ -11,10 +11,6 @@ class HomeView(LoginRequiredMixin, ListView):
     template_name = "tweets/home.html"
     queryset = model.objects.select_related("user")
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
-
 
 class TweetCreateView(LoginRequiredMixin, CreateView):
     template_name = "tweets/create.html"

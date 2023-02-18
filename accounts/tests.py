@@ -245,8 +245,6 @@ class TestUserProfileView(TestCase):
             username="testuser01",
             password="a4AXBLnb",
         )
-        Tweet.objects.create(user=self.user1, content="tweet01")
-        Tweet.objects.create(user=self.user2, content="tweet02")
 
     def test_success_get(self):
         response = self.client.get(

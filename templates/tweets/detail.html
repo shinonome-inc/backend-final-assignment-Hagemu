@@ -3,7 +3,7 @@
 {% block content %}
 <div>
     <a>{{tweet.user}}</a>
-    <p>{{tweet.created_date}}</p>
+    <p>{{tweet.created_at}}</p>
     <p>{{tweet.content}}</p>
 
     {% if tweet.user == request.user %}
