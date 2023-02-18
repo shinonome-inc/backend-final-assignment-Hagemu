@@ -3,12 +3,23 @@
 <html lang="ja">
 
 <head>
-    <meta charset="utf-8">
+    <link rel="stylesheet" href="style.css">
     <title>{% block title %}{% endblock %}</title>
 </head>
 
 <body>
-    {% block content %}{% endblock %}
+    <div id="sidebar">
+        {% block sidebar %}
+        <ul>
+            <li><a href="/tweets/home/">Home</a></li>
+        </ul>
+        {% endblock %}
+    </div>
+
+    <div id="content">
+        {% block content %}{% endblock %}
+    </div>
+
 </body>
 
 </html>
