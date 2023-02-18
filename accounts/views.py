@@ -50,15 +50,6 @@ class UserProfileView(LoginRequiredMixin, ListView):
         )
         return context
 
-    # class TweetCreateView(request):
-    pass
-
-    # class TweetDetailView(request):
-    pass
-
-    # class TweetDeleteView(request):
-    pass
-
     # class LikeView(request):
     pass
 
