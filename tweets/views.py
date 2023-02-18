@@ -28,12 +28,8 @@ class TweetDetailView(LoginRequiredMixin, DetailView):
     model = Tweet
     queryset = Tweet.objects.select_related("user")
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
 
-
-class TweetDeleteView(UserPassesTestMixin, DeleteView):
+class TweetDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     template_name = "tweets/delete.html"
     model = Tweet
     success_url = reverse_lazy("tweets:home")

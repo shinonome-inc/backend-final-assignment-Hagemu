@@ -1,8 +1,10 @@
+from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
 
-from accounts.models import CustomUser
 from tweets.models import Tweet
+
+CustomUser = get_user_model()
 
 
 class TestHomeView(TestCase):

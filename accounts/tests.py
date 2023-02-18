@@ -1,11 +1,11 @@
-from django.contrib.auth import SESSION_KEY
+from django.contrib.auth import SESSION_KEY, get_user_model
 from django.test import TestCase
 from django.urls import reverse
 
 from mysite import settings
 from tweets.models import Tweet
 
-from .models import CustomUser
+CustomUser = get_user_model()
 
 
 class TestSignUpView(TestCase):
