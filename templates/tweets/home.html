@@ -8,12 +8,12 @@
     <p><a href="{% url 'tweets:create' %}">ツイートする！</a></p>
 
     <h2>投稿一覧</h2>
-    {% for i in tweet_list %}
+    {% for tweet in tweet_list %}
     <div>
-        <a href="{% url 'accounts:profile' i.user.username %}">{{i.user.username}}</a>
-        <p>{{i.created_at}}</p>
-        <p>{{i.content}}
-            <a><a href="{% url 'tweets:detail' i.pk %}">詳細</a>
+        <a href="{% url 'accounts:profile' tweet.user.username %}">{{tweet.user.username}}</a>
+        <p>{{tweet.created_at}}</p>
+        <p>{{tweet.content}}
+            <a><a href="{% url 'tweets:detail' tweet.pk %}">詳細</a>
         </p>
     </div>
     {% endfor %}

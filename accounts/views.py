@@ -1,7 +1,6 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
-from django.shortcuts import get_object_or_404
 from django.views.generic import CreateView, ListView
 
 from tweets.models import Tweet
@@ -41,12 +40,13 @@ class LogoutView(LogoutView):
 class UserProfileView(LoginRequiredMixin, ListView):
     template_name = "accounts/profile.html"
     model = Tweet
-    queryset = Tweet.objects.select_related("user")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["tweets_list"] = Tweet.objects.select_related("user").filter(
-            user__username=self.kwargs["username"]
+        context["tweets_list"] = (
+            self.get_queryset()
+            .select_related("user")
+            .filter(user__username=self.kwargs["username"])
         )
         return context
 
