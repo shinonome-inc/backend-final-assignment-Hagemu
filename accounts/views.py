@@ -40,15 +40,15 @@ class LogoutView(LogoutView):
 class UserProfileView(LoginRequiredMixin, ListView):
     template_name = "accounts/profile.html"
     model = Tweet
+    context_object_name = "tweets_list"
+
+    def get_queryset(self):
+        return Tweet.objects.select_related("user").filter(
+            user__username=self.kwargs["username"]
+        )
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["tweets_list"] = (
-            self.get_queryset()
-            .select_related("user")
-            .filter(user__username=self.kwargs["username"])
-        )
-        return context
+        return super().get_context_data(**kwargs)
 
     # class LikeView(request):
     pass
