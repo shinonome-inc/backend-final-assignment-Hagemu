@@ -1,10 +1,11 @@
-from django.contrib.auth import SESSION_KEY
+from django.contrib.auth import SESSION_KEY, get_user_model
 from django.test import TestCase
 from django.urls import reverse
 
 from mysite import settings
+from tweets.models import Tweet
 
-from .models import CustomUser
+CustomUser = get_user_model()
 
 
 class TestSignUpView(TestCase):
@@ -230,8 +231,29 @@ class TestLogoutView(TestCase):
 
 
 class TestUserProfileView(TestCase):
+    def setUp(self):
+        self.user1 = CustomUser.objects.create_user(
+            username="testuser01", password="a4AXBLnb"
+        )
+        self.user2 = CustomUser.objects.create_user(
+            username="testuser02", password="v6EaZYBT"
+        )
+        self.user3 = CustomUser.objects.create_user(
+            username="testuser03", password="z6HqkuAR"
+        )
+        self.client.login(
+            username="testuser01",
+            password="a4AXBLnb",
+        )
+
     def test_success_get(self):
-        pass
+        response = self.client.get(
+            reverse("accounts:profile", kwargs={"username": "testuser01"})
+        )
+
+        self.assertQuerysetEqual(
+            response.context["tweets_list"], Tweet.objects.filter(user=self.user1)
+        )
 
 
 class TestUserProfileEditView(TestCase):

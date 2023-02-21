@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}tweet_create{% endblock %}
+{% block content %}
+
+<body>
+    <h1>ツイート作成</h1>
+    <p><a href="{% url 'accounts:logout' %}">ログアウト</a></p>
+    <h2>ユーザー名：{{user.username}}</h2>
+    <h2>
+        <form method="post">
+            {{ form.as_p}}
+            {% csrf_token %}
+            <button type="submit">投稿</button>
+        </form>
+    </h2>
+</body>
+{% endblock %}

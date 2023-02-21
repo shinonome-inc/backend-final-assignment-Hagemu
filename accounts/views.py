@@ -1,7 +1,9 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
-from django.views.generic import CreateView, DetailView
+from django.views.generic import CreateView, ListView
+
+from tweets.models import Tweet
 
 from .forms import LoginForm, SignupForm
 from .models import CustomUser
@@ -35,20 +37,18 @@ class LogoutView(LogoutView):
     pass
 
 
-class UserProfileView(LoginRequiredMixin, DetailView):
-    model = CustomUser
+class UserProfileView(LoginRequiredMixin, ListView):
     template_name = "accounts/profile.html"
-    slug_field = "username"
-    slug_url_kwarg = "username"
+    model = Tweet
+    context_object_name = "tweets_list"
 
-    # class TweetCreateView(request):
-    pass
+    def get_queryset(self):
+        return Tweet.objects.select_related("user").filter(
+            user__username=self.kwargs["username"]
+        )
 
-    # class TweetDetailView(request):
-    pass
-
-    # class TweetDeleteView(request):
-    pass
+    def get_context_data(self, **kwargs):
+        return super().get_context_data(**kwargs)
 
     # class LikeView(request):
     pass
