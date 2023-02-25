@@ -262,6 +262,10 @@ class TestUserProfileView(TestCase):
             FriendShip.objects.filter(follower=self.user1).count(),
             self.user1.following.count(),
         )
+        self.assertEqual(
+            FriendShip.objects.filter(followee=self.user2).count(),
+            self.user1.follow_by.count(),
+        )
 
 
 class TestUserProfileEditView(TestCase):

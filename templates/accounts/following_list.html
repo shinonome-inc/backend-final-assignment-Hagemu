@@ -7,7 +7,7 @@
 <div>
     {% for following in following_list %}
     <p>
-        <a href="{% url 'accounts:profile' following.followed %}">{{following.followed}}</a>
+        <a href="{% url 'accounts:profile' following.followee %}">{{following.followee}}</a>
     </p>
     {% endfor %}
 </div>

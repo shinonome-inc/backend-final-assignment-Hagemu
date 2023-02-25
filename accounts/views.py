@@ -5,7 +5,7 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.http import HttpResponseBadRequest
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, ListView, RedirectView
+from django.views.generic import CreateView, ListView, RedirectView, TemplateView
 
 from tweets.models import Tweet
 
@@ -61,7 +61,7 @@ class UserProfileView(LoginRequiredMixin, ListView):
             username=user.username
         ).exists()
         context["following_count"] = FriendShip.objects.filter(follower=user).count()
-        context["follower_count"] = FriendShip.objects.filter(followed=user).count()
+        context["follower_count"] = FriendShip.objects.filter(followee=user).count()
         return context
 
 
@@ -78,7 +78,7 @@ class FollowView(LoginRequiredMixin, RedirectView):
         else:
             self.request.user.following.add(target_user)
             messages.add_message(request, messages.SUCCESS, "フォローしました。")
-        return super().get(request, *args, **kwargs)
+        return super().post(request, *args, **kwargs)
 
 
 class UnFollowView(LoginRequiredMixin, RedirectView):
@@ -94,15 +94,14 @@ class UnFollowView(LoginRequiredMixin, RedirectView):
             messages.add_message(request, messages.SUCCESS, "フォロー解除しました。")
         else:
             messages.add_message(request, messages.INFO, "このユーザーをフォローしていません。")
-        return super().get(request, *args, **kwargs)
+        return super().post(request, *args, **kwargs)
 
 
-class FollowingListView(LoginRequiredMixin, ListView):
-    model = FriendShip
+class FollowingListView(LoginRequiredMixin, TemplateView):
     template_name = "accounts/following_list.html"
 
     def get_context_data(self, **kwargs):
-        following = get_object_or_404(
+        target_user = get_object_or_404(
             CustomUser,
             username=self.kwargs.get("username"),
         )
@@ -110,26 +109,25 @@ class FollowingListView(LoginRequiredMixin, ListView):
         context["username"] = self.kwargs["username"]
         context["following_list"] = (
             FriendShip.objects.select_related("follower")
-            .filter(follower=following)
+            .filter(follower=target_user)
             .order_by("-created_at")
         )
         return context
 
 
-class FollowerListView(LoginRequiredMixin, ListView):
-    model = CustomUser
+class FollowerListView(LoginRequiredMixin, TemplateView):
     template_name = "accounts/follower_list.html"
 
     def get_context_data(self, **kwargs):
-        being_followed = get_object_or_404(
+        target_user = get_object_or_404(
             CustomUser,
             username=self.kwargs.get("username"),
         )
         context = super().get_context_data(**kwargs)
         context["username"] = self.kwargs["username"]
         context["follower_list"] = (
-            FriendShip.objects.select_related("followed")
-            .filter(followed=being_followed)
+            FriendShip.objects.select_related("followee")
+            .filter(followee=target_user)
             .order_by("-created_at")
         )
         return context
