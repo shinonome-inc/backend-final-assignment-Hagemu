@@ -106,12 +106,7 @@ class FollowingListView(LoginRequiredMixin, TemplateView):
             username=self.kwargs.get("username"),
         )
         context = super().get_context_data(**kwargs)
-        context["username"] = self.kwargs["username"]
-        context["following_list"] = (
-            FriendShip.objects.select_related("follower")
-            .filter(follower=target_user)
-            .order_by("-created_at")
-        )
+        context["following_list"] = target_user.follower.order_by("-created_at")
         return context
 
 
@@ -124,10 +119,5 @@ class FollowerListView(LoginRequiredMixin, TemplateView):
             username=self.kwargs.get("username"),
         )
         context = super().get_context_data(**kwargs)
-        context["username"] = self.kwargs["username"]
-        context["follower_list"] = (
-            FriendShip.objects.select_related("followee")
-            .filter(followee=target_user)
-            .order_by("-created_at")
-        )
+        context["follower_list"] = target_user.followee.order_by("-created_at")
         return context
