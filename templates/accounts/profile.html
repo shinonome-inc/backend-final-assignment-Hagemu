@@ -8,7 +8,7 @@
 {% if username != request.user.username %}
 <form method="POST">
     {% csrf_token %}
-    {% if following_now %}
+    {% if is_following %}
     <button type="submit" formaction="{% url 'accounts:unfollow' username %}">フォロー解除</button>
     {% else %}
     <button type="submit" formaction="{% url 'accounts:follow' username %}">フォロー</button>

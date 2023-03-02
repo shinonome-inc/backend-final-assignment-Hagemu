@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, get_user_model, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.http import HttpResponseBadRequest
@@ -10,7 +10,9 @@ from django.views.generic import CreateView, ListView, RedirectView, TemplateVie
 from tweets.models import Tweet
 
 from .forms import LoginForm, SignupForm
-from .models import CustomUser, FriendShip
+from .models import FriendShip
+
+CustomUser = get_user_model()
 
 
 class WelcomeView(CreateView):
@@ -57,7 +59,7 @@ class UserProfileView(LoginRequiredMixin, ListView):
         user = get_object_or_404(CustomUser, username=self.kwargs["username"])
         context = super().get_context_data(**kwargs)
         context["username"] = user.username
-        context["following_now"] = self.request.user.following.filter(
+        context["is_following"] = self.request.user.following.filter(
             username=user.username
         ).exists()
         context["following_count"] = FriendShip.objects.filter(follower=user).count()
