@@ -15,7 +15,6 @@ class TestHomeView(TestCase):
         self.tweet = Tweet.objects.create(user=self.user, content="test_tweet")
 
     def test_success_get(self):
-
         response = self.client.get(reverse("tweets:home"))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "tweets/home.html")
