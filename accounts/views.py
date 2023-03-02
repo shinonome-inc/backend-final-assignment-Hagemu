@@ -59,9 +59,7 @@ class UserProfileView(LoginRequiredMixin, ListView):
         user = get_object_or_404(CustomUser, username=self.kwargs["username"])
         context = super().get_context_data(**kwargs)
         context["username"] = user.username
-        context["is_following"] = self.request.user.following.filter(
-            username=user.username
-        ).exists()
+        context["is_following"] = self.request.user.following.filter(username=user.username).exists()
         context["following_count"] = FriendShip.objects.filter(follower=user).count()
         context["follower_count"] = FriendShip.objects.filter(followee=user).count()
         return context
