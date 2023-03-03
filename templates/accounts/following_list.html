@@ -5,9 +5,9 @@
 {% block content %}
 <h1>{{ username }}のフォローリスト</h1>
 <div>
-    {% for following in following_list %}
+    {% for target_user in following_list %}
     <p>
-        <a href="{% url 'accounts:profile' following.followee %}">{{following.followee}}</a>
+        <a href="{% url 'accounts:profile' target_user.followee.username %}">{{target_user.followee.username}}</a>
     </p>
     {% endfor %}
 </div>

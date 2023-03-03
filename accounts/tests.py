@@ -312,7 +312,7 @@ class TestUnfollowView(TestCase):
         self.assertEqual(self.user1.following.count(), 0)
 
     def test_failure_post_with_not_exist_user(self):
-        response = self.client.post(reverse("accounts:unfollow", kwargs={"username": "null"}))
+        response = self.client.post(reverse("accounts:unfollow", kwargs={"username": "self"}))
         self.assertEqual(response.status_code, 404)
         self.assertEqual(self.user1.following.count(), 1)
 
