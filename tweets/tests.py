@@ -9,15 +9,12 @@ CustomUser = get_user_model()
 
 class TestHomeView(TestCase):
     def setUp(self):
-        self.user = CustomUser.objects.create_user(
-            username="testuser", password="testpass01"
-        )
+        self.user = CustomUser.objects.create_user(username="testuser", password="testpass01")
 
         self.client.login(username="testuser", password="testpass01")
         self.tweet = Tweet.objects.create(user=self.user, content="test_tweet")
 
     def test_success_get(self):
-
         response = self.client.get(reverse("tweets:home"))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "tweets/home.html")
@@ -29,9 +26,7 @@ class TestHomeView(TestCase):
 
 class TestTweetCreateView(TestCase):
     def setUp(self):
-        self.user = CustomUser.objects.create_user(
-            username="testuser", password="testpass01"
-        )
+        self.user = CustomUser.objects.create_user(username="testuser", password="testpass01")
 
         self.client.login(username="testuser", password="testpass01")
 
@@ -43,9 +38,7 @@ class TestTweetCreateView(TestCase):
     def test_success_post(self):
         test_tweet = {"content": "testtweet"}
         response = self.client.post(reverse("tweets:create"), test_tweet)
-        self.assertRedirects(
-            response, reverse("tweets:home"), status_code=302, target_status_code=200
-        )
+        self.assertRedirects(response, reverse("tweets:home"), status_code=302, target_status_code=200)
         self.assertTrue(Tweet.objects.filter(content=test_tweet["content"]).exists())
 
     def test_failure_post_with_empty_content(self):
@@ -64,9 +57,7 @@ class TestTweetCreateView(TestCase):
 
         form = response.context["form"]
         self.assertIn(
-            "この値は 140 文字以下でなければなりません( {} 文字になっています)。".format(
-                len(too_long_tweet["content"])
-            ),
+            "この値は 140 文字以下でなければなりません( {} 文字になっています)。".format(len(too_long_tweet["content"])),
             form.errors["content"],
         )
         self.assertFalse(Tweet.objects.exists())
@@ -74,16 +65,12 @@ class TestTweetCreateView(TestCase):
 
 class TestTweetDetailView(TestCase):
     def setUp(self):
-        self.user = CustomUser.objects.create_user(
-            username="testuser", password="testpass01"
-        )
+        self.user = CustomUser.objects.create_user(username="testuser", password="testpass01")
         self.client.login(username="testuser", password="testpass01")
         self.tweet = Tweet.objects.create(user=self.user, content="test_tweet")
 
     def test_success_get(self):
-        response = self.client.get(
-            reverse("tweets:detail", kwargs={"pk": self.tweet.pk})
-        )
+        response = self.client.get(reverse("tweets:detail", kwargs={"pk": self.tweet.pk}))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context["tweet"], self.tweet)
         self.assertTemplateUsed(response, "tweets/detail.html")
@@ -91,15 +78,9 @@ class TestTweetDetailView(TestCase):
 
 class TestTweetDeleteView(TestCase):
     def setUp(self):
-        self.user1 = CustomUser.objects.create_user(
-            username="testuser01", password="a4AXBLnb"
-        )
-        self.user2 = CustomUser.objects.create_user(
-            username="testuser02", password="v6EaZYBT"
-        )
-        self.user3 = CustomUser.objects.create_user(
-            username="testuser03", password="z6HqkuAR"
-        )
+        self.user1 = CustomUser.objects.create_user(username="testuser01", password="a4AXBLnb")
+        self.user2 = CustomUser.objects.create_user(username="testuser02", password="v6EaZYBT")
+        self.user3 = CustomUser.objects.create_user(username="testuser03", password="z6HqkuAR")
         self.client.login(
             username="testuser01",
             password="a4AXBLnb",
@@ -108,9 +89,7 @@ class TestTweetDeleteView(TestCase):
         self.tweet2 = Tweet.objects.create(user=self.user2, content="tweet02")
 
     def test_success_post(self):
-        response = self.client.post(
-            reverse("tweets:delete", kwargs={"pk": self.tweet1.pk})
-        )
+        response = self.client.post(reverse("tweets:delete", kwargs={"pk": self.tweet1.pk}))
         self.assertRedirects(response, reverse("tweets:home"), status_code=302)
         self.assertEqual(Tweet.objects.filter(content="tweet01").count(), 0)
 
@@ -120,9 +99,7 @@ class TestTweetDeleteView(TestCase):
         self.assertEqual(Tweet.objects.count(), 2)
 
     def test_failure_post_with_incorrect_user(self):
-        response = self.client.post(
-            reverse("tweets:delete", kwargs={"pk": self.tweet2.pk})
-        )
+        response = self.client.post(reverse("tweets:delete", kwargs={"pk": self.tweet2.pk}))
         self.assertEqual(response.status_code, 403)
         self.assertEqual(Tweet.objects.count(), 2)
 

@@ -2,21 +2,37 @@
 {% block title %}Profile{% endblock %}
 
 {% block content %}
-<h1>{{user.username}}のプロフィール</h1>
+
+<h1>{{ username }}のプロフィール</h1>
+
+{% if username != request.user.username %}
+<form method="POST">
+    {% csrf_token %}
+    {% if is_following %}
+    <button type="submit" formaction="{% url 'accounts:unfollow' username %}">フォロー解除</button>
+    {% else %}
+    <button type="submit" formaction="{% url 'accounts:follow' username %}">フォロー</button>
+    {% endif %}
+</form>
+{% endif %}
 
 <div>
     <br>
-    <h3>過去のツイート一覧</h3>
-    {% for tweet in tweets_list %}
-    <div>
-        <p>{{tweet.user.username}}</p>
-        <p>{{tweet.created_at}}</p>
-        <p>{{tweet.content}}
-            <a><a href="{% url 'tweets:detail' tweet.pk %}">詳細</a>
-        </p>
+    <a href="{% url 'accounts:following_list' username %}">フォロー数：{{ following_count }}</a>
+    <br>
+    <a href="{% url 'accounts:follower_list' username %}">フォロワー数：{{ follower_count }}</a>
+</div>
 
-    </div>
+<br>
+<h3>過去のツイート一覧</h3>
+{% for tweet in tweets_list %}
+<div>
+    <p>{{tweet.user.username}}</p>
+    <p>{{tweet.created_at}}</p>
+    <p>{{tweet.content}}
+        <a><a href="{% url 'tweets:detail' tweet.pk %}">詳細</a>
+    </p>
+</div>
+{% endfor %}
 
-    {% endfor %}
-
-    {% endblock %}
+{% endblock %}
