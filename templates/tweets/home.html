@@ -4,8 +4,6 @@
 
 <body>
     {% include 'tweets/like_script.html' %}
-
-
     <h1>Home</h1>
     <h2>ユーザー名：{{user.username}}</h2>
     <p><a href="{% url 'tweets:create' %}">ツイートする！</a></p>

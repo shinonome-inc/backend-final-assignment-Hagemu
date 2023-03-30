@@ -19,7 +19,6 @@ class HomeView(LoginRequiredMixin, ListView):
         context["liked_list"] = (
             Like.objects.select_related("tweet").filter(user=self.request.user).values_list("tweet", flat=True)
         )
-
         return context
 
 
