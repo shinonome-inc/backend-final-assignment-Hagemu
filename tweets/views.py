@@ -82,8 +82,7 @@ class UnlikeView(LoginRequiredMixin, View):
         tweet_id = self.kwargs["pk"]
         tweet = get_object_or_404(Tweet, pk=tweet_id)
         user = self.request.user
-        if like := Like.objects.filter(user=user, tweet=tweet):
-            like.delete()
+        Like.objects.filter(user=user, tweet=tweet).delete()  # 該当するLike.objectsが存在する場合のみdelete
         is_liked = False
         like_url = reverse("tweets:like", kwargs={"pk": tweet_id})
         unlike_url = reverse("tweets:unlike", kwargs={"pk": tweet_id})

@@ -12,25 +12,22 @@
     {% if request.user.is_authenticated %}
     <div id="sidebar">
         <ul>
-            <li><a href="/tweets/home/">Home</a></li>
+            <li><a href="{% url 'tweets:home' %}">Home</a></li>
         </ul>
         <ul>
             <li><a href="{% url 'accounts:profile' user.username %}">Profile</a></li>
         </ul>
         <ul>
-            <li><a href="/accounts/logout/">Logout</a></li>
-        </ul>
-        <ul>
-            <li><a href="/tweets/like/">TestHTML</a></li>
+            <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
         </ul>
     </div>
     {% else %}
     <div id="sidebar">
         <ul>
-            <li><a href="/accounts/signup/">Signup</a></li>
+            <li><a href="{% url 'accounts:signup' %}">Signup</a></li>
         </ul>
         <ul>
-            <li><a href="/accounts/login/">Login</a></li>
+            <li><a href="{% url 'accounts:login' %}">Login</a></li>
         </ul>
     </div>
     {% endif %}
