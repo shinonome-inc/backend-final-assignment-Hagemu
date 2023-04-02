@@ -25,6 +25,7 @@
 
 <br>
 <h3>過去のツイート一覧</h3>
+{% include 'tweets/like_script.html' %}
 {% for tweet in tweets_list %}
 <div>
     <p>{{tweet.user.username}}</p>
@@ -32,6 +33,7 @@
     <p>{{tweet.content}}
         <a><a href="{% url 'tweets:detail' tweet.pk %}">詳細</a>
     </p>
+    {% include "tweets/like.html" %}
 </div>
 {% endfor %}
 
